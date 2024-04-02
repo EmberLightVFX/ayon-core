@@ -27,6 +27,7 @@ class ExtractOIIOTranscode(publish.Extractor):
 
     Target colorspace is selected by profiles in the Settings, based on:
     - host names
+    - folder names
     - product types
     - product names
     - task types
@@ -314,6 +315,7 @@ class ExtractOIIOTranscode(publish.Extractor):
     def _get_profile(self, instance):
         """Returns profile if and how repre should be color transcoded."""
         host_name = instance.context.data["hostName"]
+        folder_name = instance.context.data["folderName"]
         product_type = instance.data["productType"]
         product_name = instance.data["productName"]
         task_data = instance.data["anatomyData"].get("task", {})
@@ -321,6 +323,7 @@ class ExtractOIIOTranscode(publish.Extractor):
         task_type = task_data.get("type")
         filtering_criteria = {
             "hosts": host_name,
+            "folder_names": folder_name,
             "product_types": product_type,
             "product_names": product_name,
             "task_names": task_name,
@@ -330,13 +333,20 @@ class ExtractOIIOTranscode(publish.Extractor):
                                   logger=self.log)
 
         if not profile:
-            self.log.debug((
-              "Skipped instance. None of profiles in presets are for"
-              " Host: \"{}\" | Product types: \"{}\" | Product names: \"{}\""
-              " | Task name \"{}\" | Task type \"{}\""
-            ).format(
-                host_name, product_type, product_name, task_name, task_type
-            ))
+            self.log.debug(
+                (
+                    "Skipped instance. None of profiles in presets are for"
+                    ' Host: "{}" | Folder names: "{}" | Product types: "{}" | Product names: "{}"'
+                    ' | Task name "{}" | Task type "{}"'
+                ).format(
+                    host_name,
+                    folder_name,
+                    product_type,
+                    product_name,
+                    task_name,
+                    task_type,
+                )
+            )
 
         return profile
 

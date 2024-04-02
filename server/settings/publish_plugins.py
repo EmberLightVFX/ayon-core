@@ -251,6 +251,10 @@ class ExtractOIIOTranscodeProfileModel(BaseSettingsModel):
         default_factory=list,
         title="Host names"
     )
+    folder_names: list[str] = SettingsField(
+        default_factory=list,
+        title="Folder names"
+    )
     product_types: list[str] = SettingsField(
         default_factory=list,
         title="Product types"
@@ -996,6 +1000,7 @@ DEFAULT_PUBLISH_VALUES = {
         "profiles": [
             {
                 "hosts": [],
+                "folder_names": [],
                 "product_types": [],
                 "product_names": [],
                 "task_types": [],
