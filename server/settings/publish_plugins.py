@@ -247,13 +247,17 @@ class ExtractOIIOTranscodeOutputModel(BaseSettingsModel):
 
 
 class ExtractOIIOTranscodeProfileModel(BaseSettingsModel):
+    hosts: list[str] = SettingsField(
+        default_factory=list,
+        title="Host names"
+    )
     product_types: list[str] = SettingsField(
         default_factory=list,
         title="Product types"
     )
-    hosts: list[str] = SettingsField(
+    product_names: list[str] = SettingsField(
         default_factory=list,
-        title="Host names"
+        title="Product names"
     )
     task_types: list[str] = SettingsField(
         default_factory=list,
@@ -263,10 +267,6 @@ class ExtractOIIOTranscodeProfileModel(BaseSettingsModel):
     task_names: list[str] = SettingsField(
         default_factory=list,
         title="Task names"
-    )
-    product_names: list[str] = SettingsField(
-        default_factory=list,
-        title="Product names"
     )
     delete_original: bool = SettingsField(
         True,
@@ -995,11 +995,11 @@ DEFAULT_PUBLISH_VALUES = {
         },
         "profiles": [
             {
-                "product_types": [],
                 "hosts": [],
+                "product_types": [],
+                "product_names": [],
                 "task_types": [],
                 "task_names": [],
-                "product_names": [],
                 "burnins": [
                     {
                         "name": "burnin",
